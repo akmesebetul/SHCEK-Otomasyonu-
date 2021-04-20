@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>TODO supply a title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <h:form>
+                        <ul class="navbar-nav">           
+                            <li class="nav-item active">
+                                <h:commandLink styleClass="nav-link" action="Cocuk" value="Çocuklar"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Bakici" value="Bakıcılar"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Kurs" value="Kurslar"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Egitmen" value="Eğitmenler"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Yatakhane" value="Yatakhane"/>
+                            </li>
+                             <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Yemekhane" value="Yemekhane"/>
+                            </li>
+                             
+                        <li class="nav-item active">
+                            <h:commandLink styleClass="nav-link" action="Kalie" value="Koruyucu Aile"/>
+                        </li>
+                        <li class="nav-item">
+                            <h:commandLink styleClass="nav-link" action="Etkinlikler" value="Etkinlikler"/> 
+                        </li>
+                         <li class="nav-item">
+                            <h:commandLink styleClass="nav-link" action="Bagis" value="Bağış Ekranı"/> 
+                        </li>
+                        
+                        
+                        </ul>
+                      
+                    </h:form>
+                   </div>
+            </nav>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7">   
+                    <h:form id="kurs-table">
+                        page #{kurscontroller.page} of #{kurscontroller.pageCount}
+                        <div class="btn_group">
+                            <h:commandButton action="#{kurscontroller.previous()}" value="Previosu"  styleClass="btn btn-outline-dark" />
+                            <h:commandButton action="#{kurscontroller.next()}" value="Next" styleClass="btn btn-outline-dark" />
+                        </div>
+                        <h:dataTable styleClass="table table-striped" value="#{kurscontroller.kList}" var="Kurs">
+                        <h:column>
+                                <f:facet name="header">ID_KURS</f:facet>
+                                    #{Kurs.id_kurs}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">BASLANGIC</f:facet>
+                                <h:commandLink action="#{kurscontroller.updateForm(Kurs)}" value="#{Kurs.start}" >
+                                    <f:ajax execute="@this" render="Kurs-form" />
+                                </h:commandLink>                     
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">BİTİS</f:facet>
+                                <h:commandLink action="#{kurscontroller.updateForm(Kurs)}" value="#{Kurs.finish}"
+                                    <f:ajax execute="@this" render="Kurs-form" />
+                                </h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">COCUK</f:facet>
+                                    #{Kurs.kursiyer.isism}
+                            </h:column>
+                              <h:column>
+                                <f:facet name="header">EGİTMEN</f:facet>
+                                    #{Kurs.e.isim}
+                            </h:column>
+                        </h:dataTable>
+                        
+                    </h:form>
+        </div>
+                <div class="col-md-7">
+                    <h:form id="kurs-form">
+                        <div class="form-group">
+                            <label for="inputStart">BASLANGIC</label>
+                            <h:inputText id="inputStart" value="#{kurscontroller.kurs.start}" styleClass="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="inputFinish">BİTİS</label>
+                            <h:inputText id="inputFinish" value="#{kurscontroller.kurs.finish}" styleClass="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="selectCocuk">COCUK</label>
+                            <h:selectOneMenu styleClass="custom-select" id="selectCocuk" value="#{kurscontroller.kurs.kursiyer}"  converter="cocuk" >
+                                <f:selectItems value="#{kurscontroller.clist}" var="Cocuk" itemValue="#{Cocuk}" itemLabel="#{Cocuk.isim}" />
+                            </h:selectOneMenu>
+                        </div>
+                         <div class="form-group">
+                            <label for="selectEgitmen">EGİTMEN</label>
+                            <h:selectOneMenu styleClass="custom-select" id="selectEgitmen" value="#{kurscontroller.kurs.e}" converter="egitmen" >
+                                <f:selectItems value="#{kurscontroller.elist}" var="Egitmen" itemValue="#{Egitmen}" itemLabel="#{Egitmen.isim}" />
+                            </h:selectOneMenu>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h:commandButton rendered="#{kurscontroller.kurs.id_kurs!=null}" styleClass="btn btn-info " value="update" action="#{kurscontroller.update}"/>
+                            <h:commandButton rendered="#{kurscontroller.kurs.id_kurs==null}" styleClass="btn btn-secondary " value="Create" action="#{kurscontroller.create}"/>
+                            <h:commandButton rendered="#{kurscontroller.kurs.id_kurs!=null}" styleClass="btn btn-danger " value="delete" action="#{kurscontroller.delete}"/>
+                        </div>
+                    </h:form>   
+                </div>
+            </div>
+
+
+        </div>
+    </body>
+</html>
