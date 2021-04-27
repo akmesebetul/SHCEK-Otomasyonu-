@@ -76,7 +76,7 @@ and open the template in the editor.
                                 </h:column>
                             <h:column>
                                 <f:facet name="header">ISIM</f:facet>
-                               <h:commandLink action="#{cocukcontroller.updateForm(Cocuk)}" value="#{Cocuk.isim}" >
+                               <h:commandLink action="#{cocukcontroller.updateForm(cocuk)}" value="#{cocuk.isim}" >
                                     <f:ajax execute="@this" render="Cocuk-form" />
                                 </h:column>
                             <h:column>
@@ -90,9 +90,9 @@ and open the template in the editor.
                                 #{cocuk.k_tarihi}
                                 </h:column>
                                 <h:column>
-                                <f:facet name="header">Bakicilar</f:facet>
+                                <f:facet name="header">BAKICILAR</f:facet>
                                 <ul>
-                                    <ui:repeat value="#{Cocuk.Bakici}" var="Bakici">
+                                    <ui:repeat value="#{cocuk.bakici}" var="Bakici">
                                         <li>#{bakici.isim}</li>
                                     </ui:repeat>
                                 </ul>
@@ -122,7 +122,7 @@ and open the template in the editor.
                         <div class="form-group">
                             <label for="selectBakici">Bakicilar</label>
                             <h:selectManyListbox styleClass="custom-select" value="#{cocukcontroller.cocuk.bakicilar}" converter="bakici" >                          
-                                <f:selectItems value="#{cocukcontroller.bakicicontroller.bList}" var="Bakici" itemValue="#{Bakici}" itemLabel="#{Bakici.isim}"/>
+                                <f:selectItems value="#{cocukcontroller.bakicicontroller.bList}" var="Bakici" itemValue="#{bakici}" itemLabel="#{bakici.isim}"/>
                             </h:selectManyListbox>    
                         </div>
 

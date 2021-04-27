@@ -7,15 +7,21 @@ package controller;
 
 import dao.cocukDao;
 import entity.Cocuk;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Casper
+ * 
  */
-public class Cocukcontroller {
+@Named
+@SessionScoped
+public class Cocukcontroller implements Serializable {
     private List<Cocuk> clist;
     private cocukDao cdao;
     private Cocuk Cocuk;
