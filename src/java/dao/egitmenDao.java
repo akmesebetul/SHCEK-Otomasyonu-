@@ -68,7 +68,7 @@ public class egitmenDao {
             ResultSet rs = st.executeQuery("select * from egitmen where id_egitmen=" + id_egitmen);
             rs.next();
             e = new Egitmen();
-            e.setId_egitmen(rs.getLong("id_bolum"));
+            e.setId_egitmen(rs.getLong("id_egitmen"));
             e.setIsim(rs.getString("isim"));
             e.setTc(rs.getString("tc"));
             e.setD_tarihi(rs.getString("d_tarihi"));
