@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" >
+    <head>
+        <title>TODO supply a title</title>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="jquery-3.3.1.min.js"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <h:form>
+                        <ul class="navbar-nav">           
+                            <li class="nav-item active">
+                                <h:commandLink styleClass="nav-link" action="Cocuk" value="Çocuklar"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Bakici" value="Bakıcılar"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Kurs" value="Kurslar"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Egitmen" value="Eğitmenler"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Yatakhane" value="Yatakhane"/>
+                            </li>
+                             <li class="nav-item">
+                                <h:commandLink styleClass="nav-link" action="Yemekhane" value="Yemekhane"/>
+                            </li>
+                             
+                        <li class="nav-item active">
+                            <h:commandLink styleClass="nav-link" action="Kalie" value="Koruyucu Aile"/>
+                        </li>
+                        <li class="nav-item">
+                            <h:commandLink styleClass="nav-link" action="Etkinlikler" value="Etkinlikler"/> 
+                        </li>
+                         <li class="nav-item">
+                            <h:commandLink styleClass="nav-link" action="Bagis" value="Bağış Ekranı"/> 
+                        </li>
+                        
+                        
+                        </ul>
+                      
+                    </h:form>
+                   </div>
+            </nav>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">   
+                    <h:form id="egitmen-table">
+                        page #{egitmencontroller.page} of #{egitmencontroller.pageCount}
+                        <div class="btn_group">
+                            <h:commandButton action="#{egitmencontroller.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+
+                            <h:commandButton action="#{egitmencontroller.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+
+
+                        </div>
+                        <h:dataTable styleClass="table table-striped" value=#{egitmencontroller.elist} var="egitmen">
+                            <h:column>
+                                <f:facet name="header">ID_EGİTMEN</f:facet>
+                                    #{egitmen.id_egitmen}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">ISIM</f:facet>
+                                <h:commandLink action="#{egitmencontroller.updateForm(egitmen)}" value="#{egitmen.isim}" >
+                                    <f:ajax execute="@this" render="egitmen-form" />
+                                </h:commandLink>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">TC</f:facet>
+                                    #{egitmen.tc}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">DTARIH</f:facet>
+                                    #{egitmen.d_tarihi}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">TELEFON</f:facet>
+                                    #{egitmen.tel_no}
+                            </h:column>
+                            
+                        </h:dataTable>
+                    </h:form>   
+                </div>
+                <div class="col-md-6">
+
+
+                    <h:form id="bolum-form">
+                        <div class="form-group">
+                            <h:inputHidden value="#{egitmencontroller.egitmen.id_egitmen}"/>
+
+                            <label for="inputIsim">ISIM</label>
+                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.isim}"/>
+                            <label for="inputTc">TC</label>
+                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.tc}"/>
+                            <label for="inputD_tarihi">DTARIHI</label>
+                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.d_tarihi}"/>
+                            <label for="inputTel_no">TELEFON</label>
+                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.tel_no}"/>
+                            
+
+                        </div>
+                        <div class="form-group">     
+                            <div class="btn-group">
+                                <h:commandButton rendered="#{egitmencontroller.egitmen.id_egitmen!=null}" styleClass="btn btn-info " value="update" action="#{egitmencontroller.update}"> 
+                                    <f:ajax execute="egitmen-form" render="egitmen-form egitmen-table" />
+                                </h:commandButton>
+                                <h:commandButton rendered="#{egitmencontroller.egitmen.id_egitmen==null}" styleClass="btn btn-primary " value="Create" action="#{egitmencontroller.create}">
+                                    <f:ajax execute="egitmen-form" render="egitmen-form egitmen-table" />
+                                </h:commandButton>
+                                <h:commandButton  rendered="#{egitmencontroller.egitmen.id_egitmen!=null}" styleClass="btn btn-secondary " value="Clear Form" action="#{egitmencontroller.clearForm}">
+                                    <f:ajax execute="egitmen-form" render="egitmen-form egitmen-table" />
+
+                                </h:commandButton>
+
+                                <h:commandButton styleClass="btn btn-dark" action="index" value="Back"/>
+                            </div>
+                        </div>
+                    </h:form>   
+                </div>
+            </div>
+
+
+        </div>
+    </body>
+</html>
