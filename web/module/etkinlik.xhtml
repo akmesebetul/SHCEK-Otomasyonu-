@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:h="http://xmlns.jcp.org/jsf/html"
+     xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets" >
     <head>
@@ -62,70 +62,63 @@ and open the template in the editor.
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">   
-                    <h:form id="egitmen-table">
-                        page #{egitmencontroller.page} of #{egitmencontroller.pageCount}
+                    <h:form id="etkinlikler-table">
+                        page #{etkinlikcontroller.page} of #{etkinlikcontroller.pageCount}
                         <div class="btn_group">
-                            <h:commandButton action="#{egitmencontroller.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                            <h:commandButton action="#{etkinlikcontroller.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
 
-                            <h:commandButton action="#{egitmencontroller.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                            <h:commandButton action="#{etkinlikcontroller.next()}" value="Next" styleClass="btn btn-outline-dark"/>
 
 
                         </div>
-                        <h:dataTable styleClass="table table-striped" value=#{egitmencontroller.elist} var="egitmen">
+                        <h:dataTable styleClass="table table-striped" value=#{etkinlikcontroller.eList} var="etkinlikler">
                             <h:column>
-                                <f:facet name="header">ID_EGİTMEN</f:facet>
-                                    #{egitmen.id_egitmen}
+                                <f:facet name="header">ID_ETKINLIKLER</f:facet>
+                                    #{etkinlikler.id_etk}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">ISIM</f:facet>
-                                <h:commandLink action="#{egitmencontroller.updateForm(egitmen)}" value="#{egitmen.isim}" >
-                                    <f:ajax execute="@this" render="egitmen-form" />
+                                <f:facet name="header">ETKINLIK</f:facet>
+                                <h:commandLink action="#{etkinlikcontroller.updateForm(etkinlikler)}" value="#{etkinlikler.etkinlik}" >
+                                    <f:ajax execute="@this" render="etkinlikler-form" />
                                 </h:commandLink>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">TC</f:facet>
-                                    #{egitmen.tc}
+                                <f:facet name="header">ICERIK</f:facet>
+                                    #{etkinlikler.icerik}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">DTARIH</f:facet>
-                                    #{egitmen.d_tarihi}
+                                <f:facet name="header">TARIH</f:facet>
+                                    #{etkinlikler.tarih}
                             </h:column>
-                            <h:column>
-                                <f:facet name="header">TELEFON</f:facet>
-                                    #{egitmen.tel_no}
-                            </h:column>
-                            
+                           
                         </h:dataTable>
                     </h:form>   
                 </div>
                 <div class="col-md-6">
 
 
-                    <h:form id="egitmen-form">
+                    <h:form id="etkinlikler-form">
                         <div class="form-group">
-                            <h:inputHidden value="#{egitmencontroller.egitmen.id_egitmen}"/>
+                            <h:inputHidden value="#{etkinlikcontroller.etkinlikler.id_etk}"/>
 
-                            <label for="inputIsim">ISIM</label>
-                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.isim}"/>
-                            <label for="inputTc">TC</label>
-                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.tc}"/>
-                            <label for="inputD_tarihi">DTARIHI</label>
-                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.d_tarihi}"/>
-                            <label for="inputTel_no">TELEFON</label>
-                            <h:inputText  styleClass="form-control" value="#{egitmencontroller.egitmen.tel_no}"/>
+                            <label for="inputEtkinlik">ETKINLIK</label>
+                            <h:inputText  styleClass="form-control" value="#{etkinlikcontroller.etkinlikler.etkinlik}"/>
+                            <label for="inputIcerik">ICERIK</label>
+                            <h:inputText  styleClass="form-control" value="#{etkinlikcontroller.etkinlikler.icerik}"/>
+                            <label for="inputTarih">TARIH</label>
+                            <h:inputText  styleClass="form-control" value="#{etkinlikcontroller.etkinlikler.tarih}"/>
                             
-
                         </div>
                         <div class="form-group">     
                             <div class="btn-group">
-                                <h:commandButton rendered="#{egitmencontroller.egitmen.id_egitmen!=null}" styleClass="btn btn-info " value="update" action="#{egitmencontroller.update}"> 
-                                    <f:ajax execute="egitmen-form" render="egitmen-form egitmen-table" />
+                                <h:commandButton rendered="#{etkinlikcontroller.etkinlikler.id_etk!=null}" styleClass="btn btn-info " value="update" action="#{etkinlikcontroller.update}"> 
+                                    <f:ajax execute="etkinlikler-form" render="etkinlikler-form etkinlikler-table" />
                                 </h:commandButton>
-                                <h:commandButton rendered="#{egitmencontroller.egitmen.id_egitmen==null}" styleClass="btn btn-primary " value="Create" action="#{egitmencontroller.create}">
-                                    <f:ajax execute="egitmen-form" render="egitmen-form egitmen-table" />
+                                <h:commandButton rendered="#{etkinlikcontroller.etkinlikler.id_etk==null}" styleClass="btn btn-primary " value="Create" action="#{etkinlikcontroller.create}">
+                                     <f:ajax execute="etkinlikler-form" render="etkinlikler-form etkinlikler-table" />
                                 </h:commandButton>
-                                <h:commandButton  rendered="#{egitmencontroller.egitmen.id_egitmen!=null}" styleClass="btn btn-secondary " value="Clear Form" action="#{egitmencontroller.clearForm}">
-                                    <f:ajax execute="egitmen-form" render="egitmen-form egitmen-table" />
+                                <h:commandButton  rendered="#{etkinlikcontroller.etkinlikler.id_etk!=null}" styleClass="btn btn-secondary " value="Clear Form" action="#{etkinlikcontroller.clearForm}">
+                                     <f:ajax execute="etkinlikler-form" render="etkinlikler-form etkinlikler-table" />
 
                                 </h:commandButton>
 
