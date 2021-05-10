@@ -79,7 +79,7 @@ public class etkinlikDao {
     }
     public void insert(Etkinlikler etkinlikler){
         try{
-         PreparedStatement pst=this.getC().prepareStatement("insert into etkinlikler (etkinlikler,icerik,tarih) values(?)");
+         PreparedStatement pst=this.getC().prepareStatement("insert into etkinlikler (etkinlik,icerik,tarih) values(?)");
          
          pst.setString(1, etkinlikler.getEtkinlik());
          pst.setString(2, etkinlikler.getIcerik());
