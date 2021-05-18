@@ -1,0 +1,244 @@
+-- --------------------------------------------------------
+-- Sunucu:                       127.0.0.1
+-- Sunucu sürümü:                10.2.13-MariaDB - mariadb.org binary distribution
+-- Sunucu İşletim Sistemi:       Win64
+-- HeidiSQL Sürüm:               9.4.0.5125
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+-- kurum için veritabanı yapısı dökülüyor
+DROP DATABASE IF EXISTS `kurum`;
+CREATE DATABASE IF NOT EXISTS `kurum` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `kurum`;
+
+-- tablo yapısı dökülüyor kurum.bagis
+DROP TABLE IF EXISTS `bagis`;
+CREATE TABLE IF NOT EXISTS `bagis` (
+  `id_bagis` int(11) NOT NULL,
+  `turu` varchar(50) NOT NULL,
+  `miktar` varchar(50) NOT NULL,
+  `bagisci` varchar(50) NOT NULL,
+  `e_posta` varchar(50) NOT NULL,
+  `tel_no` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_bagis`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.bagis: ~5 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `bagis` DISABLE KEYS */;
+INSERT INTO `bagis` (`id_bagis`, `turu`, `miktar`, `bagisci`, `e_posta`, `tel_no`) VALUES
+	(1, 'Oyuncak', '300 Adet', 'Serap Taşcı', 'serap_tasci@gmail.com', '05397320056'),
+	(2, 'Kırtasiye Malzemesi', '250 Paket', 'Kamil Aytaç', 'kaytac13@gmail.com', '05321025348'),
+	(3, 'Para', '12.000 Türk Lirası', 'Hatice Bayram', 'bayhatice@hotmail.com', '05063045201'),
+	(4, 'Gıda', '300 Paket', 'Eren Saraç', 'saraceren@hotmail.com', '05057801649'),
+	(5, 'Para', '15.000 Türk Lirası', 'Halime Kazan ', 'halime_kazan@gmail.com', '05360002178');
+/*!40000 ALTER TABLE `bagis` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.bakici
+DROP TABLE IF EXISTS `bakici`;
+CREATE TABLE IF NOT EXISTS `bakici` (
+  `id_bakici` int(11) NOT NULL,
+  `isim` varchar(50) NOT NULL,
+  `tc` varchar(50) NOT NULL,
+  `d_tarihi` date NOT NULL,
+  `tel_no` varchar(50) NOT NULL,
+  `id_cocuk` int(11) NOT NULL,
+  PRIMARY KEY (`id_bakici`),
+  KEY `FK_bakici_cocuk` (`id_cocuk`),
+  CONSTRAINT `FK_bakici_cocuk` FOREIGN KEY (`id_cocuk`) REFERENCES `cocuk` (`id_cocuk`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.bakici: ~5 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `bakici` DISABLE KEYS */;
+INSERT INTO `bakici` (`id_bakici`, `isim`, `tc`, `d_tarihi`, `tel_no`, `id_cocuk`) VALUES
+	(1, 'Ahmet Kırca', '23106549870', '1978-02-21', '05362589674', 1),
+	(2, 'Ahmet Kırca', '23106549870', '1978-02-21', '05362589674', 3),
+	(3, 'Ahmet Kırca', '23106549870', '1978-02-21', '05362589674', 5),
+	(4, 'Semiha Sarı', '89745630147', '1985-01-08', '05221478536', 2),
+	(5, 'Semiha Sarı', '89745630147', '1985-01-08', '05221478536', 4);
+/*!40000 ALTER TABLE `bakici` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.cocuk
+DROP TABLE IF EXISTS `cocuk`;
+CREATE TABLE IF NOT EXISTS `cocuk` (
+  `id_cocuk` int(11) NOT NULL,
+  `isim` varchar(50) NOT NULL,
+  `tc` varchar(11) NOT NULL,
+  `d_tarihi` date NOT NULL,
+  `k_tarihi` date NOT NULL,
+  PRIMARY KEY (`id_cocuk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.cocuk: ~10 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `cocuk` DISABLE KEYS */;
+INSERT INTO `cocuk` (`id_cocuk`, `isim`, `tc`, `d_tarihi`, `k_tarihi`) VALUES
+	(1, 'Selçuk Kaya', '11111111111', '2000-05-15', '2007-03-05'),
+	(2, 'Rumeysa Bilgiç', '23651478965', '2003-09-17', '2003-09-18'),
+	(3, 'Zafer Çakmak', '78965412354', '1999-11-10', '2002-01-09'),
+	(4, 'Melek İpek', '4563217892', '2002-08-15', '2006-07-03'),
+	(5, 'Salih Mert', '7416985200', '2006-02-11', '2009-10-23'),
+	(6, 'Suna Coşkun', '89745632170', '2010-04-22', '2021-05-30'),
+	(7, 'Arda Şahin', '32456170987', '2021-01-19', '2021-03-19'),
+	(8, 'Ayşe Karaca', '78941304965', '2017-06-20', '2019-12-04'),
+	(9, 'Emir Tarhan', '98700321445', '2011-07-08', '2015-09-07'),
+	(10, 'Sude İrfan', '14563200987', '2014-03-27', '2021-05-15');
+/*!40000 ALTER TABLE `cocuk` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.egitmen
+DROP TABLE IF EXISTS `egitmen`;
+CREATE TABLE IF NOT EXISTS `egitmen` (
+  `id_egitmen` int(11) NOT NULL,
+  `isim` varchar(50) NOT NULL,
+  `tc` varchar(50) NOT NULL,
+  `d_tarihi` date NOT NULL,
+  `tel_no` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_egitmen`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.egitmen: ~3 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `egitmen` DISABLE KEYS */;
+INSERT INTO `egitmen` (`id_egitmen`, `isim`, `tc`, `d_tarihi`, `tel_no`) VALUES
+	(1, 'Şahika Derin', '78451200363', '1990-07-27', '05391007586'),
+	(2, 'Muzaffer Kapıcı', '12326545789', '1979-10-30', '05351597535'),
+	(3, 'Sümeyye Altıntop', '98784651025', '1995-08-15', '05327532648');
+/*!40000 ALTER TABLE `egitmen` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.etkinlikler
+DROP TABLE IF EXISTS `etkinlikler`;
+CREATE TABLE IF NOT EXISTS `etkinlikler` (
+  `id_etk` int(11) NOT NULL,
+  `etkinlik` varchar(50) NOT NULL,
+  `icerik` varchar(200) NOT NULL,
+  `tarih` date NOT NULL,
+  PRIMARY KEY (`id_etk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.etkinlikler: ~7 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `etkinlikler` DISABLE KEYS */;
+INSERT INTO `etkinlikler` (`id_etk`, `etkinlik`, `icerik`, `tarih`) VALUES
+	(1, 'Enerji Tasarrufu Haftası', 'Enerji Tasarrufu Kompozisyon Yarışması', '2021-01-11'),
+	(2, 'Sivil Savunma Günü', 'İkaz-Alarm Tatbikatları', '2021-02-28'),
+	(3, 'İstiklal Marşı\'nın Kabulü ', 'Mehmet Akif Ersoy\'a Mektup Yazma ', '2021-03-12'),
+	(4, 'Ulusal Egemenlik ve Çocuk Bayramı', 'Çocuklar Arasında Çeşitli Yarışmalar Yapılması', '2021-04-23'),
+	(5, 'Atatürk\'ü Anma ve Gençlik Spor Bayramı', 'Sprotif-Kültürel Etkinlikler', '2021-05-19'),
+	(6, 'Piknik Organizsayonu', 'Piknik Organizasyonu', '2021-06-20'),
+	(7, 'Zafer Bayramı', 'Zafer Bayramı Kutlama Etkinlikleri', '2021-08-30');
+/*!40000 ALTER TABLE `etkinlikler` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.kaile
+DROP TABLE IF EXISTS `kaile`;
+CREATE TABLE IF NOT EXISTS `kaile` (
+  `id_aile` int(11) NOT NULL,
+  `ebeveyn` varchar(200) NOT NULL,
+  `tc` varchar(11) NOT NULL,
+  `d_tarihi` date NOT NULL,
+  `tel_no` varchar(50) NOT NULL,
+  `adres` varchar(200) NOT NULL,
+  `id_cocuk` int(11) NOT NULL,
+  PRIMARY KEY (`id_aile`),
+  KEY `FK_kaile_cocuk` (`id_cocuk`),
+  CONSTRAINT `FK_kaile_cocuk` FOREIGN KEY (`id_cocuk`) REFERENCES `cocuk` (`id_cocuk`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.kaile: ~5 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `kaile` DISABLE KEYS */;
+INSERT INTO `kaile` (`id_aile`, `ebeveyn`, `tc`, `d_tarihi`, `tel_no`, `adres`, `id_cocuk`) VALUES
+	(1, 'Sezai Şensoy', '52301479634', '1969-02-05', '05478963214', 'Bağcı Mah. Sakız Sokak Battalgazi Malatya', 7),
+	(2, 'Burhan Akın', '14752308967', '1988-05-10', '05524147896', 'Selim Mah. Kiraz Sokak Yeşilyurt Malatya', 9),
+	(3, 'Ali Yiğit', '73048957120', '1975-07-03', '05324569871', 'Kuyu Mah. Alaca Sokak Hankendi Elazığ', 8),
+	(4, 'Taner Sağlam', '32147859600', '1980-12-14', '05368719685', 'Jale Mah. Kapıkaya Sokak Battalgazi Malatya', 10),
+	(5, 'Mahir Hasret', '65478001432', '1983-09-25', '05447300022', 'Elçi Mah. Çetin Sokak Yeşilyurt Malatya', 6);
+/*!40000 ALTER TABLE `kaile` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.kurs
+DROP TABLE IF EXISTS `kurs`;
+CREATE TABLE IF NOT EXISTS `kurs` (
+  `id_kurs` int(11) NOT NULL,
+  `kurslar` varchar(50) NOT NULL,
+  `start` date NOT NULL,
+  `finish` date NOT NULL,
+  `id_cocuk` int(11) NOT NULL,
+  `id_egitmen` int(11) NOT NULL,
+  PRIMARY KEY (`id_kurs`),
+  KEY `FK_kurs_cocuk` (`id_cocuk`),
+  KEY `FK_kurs_egitmen` (`id_egitmen`),
+  CONSTRAINT `FK_kurs_cocuk` FOREIGN KEY (`id_cocuk`) REFERENCES `cocuk` (`id_cocuk`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_kurs_egitmen` FOREIGN KEY (`id_egitmen`) REFERENCES `egitmen` (`id_egitmen`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.kurs: ~5 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `kurs` DISABLE KEYS */;
+INSERT INTO `kurs` (`id_kurs`, `kurslar`, `start`, `finish`, `id_cocuk`, `id_egitmen`) VALUES
+	(1, 'Ebru', '2021-02-11', '2021-05-11', 2, 1),
+	(2, 'Ebru', '2021-02-11', '2021-05-11', 4, 1),
+	(3, 'Satranç', '2021-02-01', '2021-05-01', 1, 2),
+	(4, 'Satranç', '2021-02-01', '2021-05-01', 5, 2),
+	(5, 'Gitar', '2021-02-11', '2021-05-11', 3, 3);
+/*!40000 ALTER TABLE `kurs` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.yatakhane
+DROP TABLE IF EXISTS `yatakhane`;
+CREATE TABLE IF NOT EXISTS `yatakhane` (
+  `id_ytk` int(11) NOT NULL,
+  `kat_no` int(11) NOT NULL,
+  `oda_no` int(11) NOT NULL,
+  `id_cocuk` int(11) NOT NULL,
+  PRIMARY KEY (`id_ytk`),
+  KEY `FK_yatakhane_cocuk` (`id_cocuk`),
+  CONSTRAINT `FK_yatakhane_cocuk` FOREIGN KEY (`id_cocuk`) REFERENCES `cocuk` (`id_cocuk`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.yatakhane: ~5 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `yatakhane` DISABLE KEYS */;
+INSERT INTO `yatakhane` (`id_ytk`, `kat_no`, `oda_no`, `id_cocuk`) VALUES
+	(1, 3, 1, 1),
+	(2, 3, 1, 3),
+	(3, 3, 1, 5),
+	(4, 4, 1, 2),
+	(5, 4, 1, 4);
+/*!40000 ALTER TABLE `yatakhane` ENABLE KEYS */;
+
+-- tablo yapısı dökülüyor kurum.yemekhane
+DROP TABLE IF EXISTS `yemekhane`;
+CREATE TABLE IF NOT EXISTS `yemekhane` (
+  `id_ymk` int(11) NOT NULL,
+  `gunler` varchar(50) NOT NULL,
+  `vakitler` varchar(50) NOT NULL,
+  `yemekler` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_ymk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- kurum.yemekhane: ~21 rows (yaklaşık) tablosu için veriler indiriliyor
+/*!40000 ALTER TABLE `yemekhane` DISABLE KEYS */;
+INSERT INTO `yemekhane` (`id_ymk`, `gunler`, `vakitler`, `yemekler`) VALUES
+	(1, 'Pazartesi', 'Sabah', 'Zeytin,Peynir,Yumurta,Reçel,Çay'),
+	(2, 'Pazartesi', 'Öğle', 'Karnıyarık,Bulgur Pilavı,Tulumba,Cacık'),
+	(3, 'Pazartesi', 'Akşam', 'Tavuk Sote,Makarna,Üzüm Hoşafı'),
+	(4, 'Salı', 'Sabah', 'Zeytin,Peynir,Yumurta,Bal,Çay'),
+	(5, 'Salı', 'Öğle', 'Nohut,Bulgur Pilavı,Turşu,İrmik Helvası,Ayran'),
+	(6, 'Salı', 'Akşam', 'Tas Kebabı,Bulgur Pilavı,Ayran'),
+	(7, 'Çarşamba', 'Sabah', 'Zeytin,Peynir,Patates Kızartması,Yumurta,Bal,Çay'),
+	(8, 'Çarşamba', 'Öğle', 'Ezogelin Çorbası,Kekik Kebabı,Pirinç Pilavı'),
+	(9, 'Çarşamba', 'Akşam', 'Türlü,Pirinç Pilavı,Salata'),
+	(10, 'Perşembe', 'Sabah ', 'Zeytin,Peynir.Yoğurt,Reçel,Yumurta,Çay'),
+	(11, 'Perşembe', 'Öğle', 'Kremalı Tavuk Çorbası,Dolma,Ayran,Baklava'),
+	(12, 'Perşembe', 'Akşam', 'Kremalı Tavuk Çorbası,Mücver,Ayran'),
+	(13, 'Cuma', 'Sabah', 'Zeytin,Peynir,Simit,Domates,Salatalık,Çay'),
+	(14, 'Cuma', 'Öğle', 'Mantı,Şekerpare'),
+	(15, 'Cuma', 'Akşam', 'Domates Çorbası,Tavuk Rosto,Patates Püresi'),
+	(16, 'Cumartesi', 'Sabah', 'Zeytin,Peynir,Menemen,Bal,Çay'),
+	(17, 'Cumartesi', 'Öğle', 'Kadınbudu Köfte,Mevsim Salata,Fırında Patates'),
+	(18, 'Cumartesi', 'Akşam', 'Soslu Patlıcan,Kaşarlı Spagetti,Yoğurt'),
+	(19, 'Pazar', 'Sabah', 'Zeytin,Peynir,Börek,Domates,Salatalık,Çay'),
+	(20, 'Pazar', 'Öğle', 'Mercimek Çorbası,Lahmacun,Salata,Ayran,Şöbiyet'),
+	(21, 'Pazar', 'Akşam', 'Zeytinyağli Fasulye,Mercimek Çorbası,Bulgur Pilavı');
+/*!40000 ALTER TABLE `yemekhane` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
